@@ -264,7 +264,7 @@ class SendtoCfg:
 		     resp_inc=[], resp_exc=[], use_tcp=False,
 		     extra_headers="", body="", complete_msg="",
 		     enable_buffer = False):
-	 	self.complete_msg = complete_msg
+		self.complete_msg = complete_msg
 		self.sdp = sdp
 		self.resp_code = resp_code
 		self.resp_include = resp_inc
