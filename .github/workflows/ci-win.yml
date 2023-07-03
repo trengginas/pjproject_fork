@@ -75,6 +75,9 @@ jobs:
         set LIB=%LIB%;%OPENSSL_DIR%\lib
         msbuild pjproject-vs14.sln /p:PlatformToolset=v143 /p:Configuration=Release /p:Platform=win32 /p:UseEnv=true
       shell: cmd
+    - name: disable firewall
+      run: Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False
+      shell: powershell
     - name: unit tests
       run: |
         $env:OPENSSL_DIR = Get-Content .\openssl_dir.txt
@@ -128,6 +131,9 @@ jobs:
         call "%PROGRAMFILES%\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat"
         msbuild cmp_wav.vcxproj /p:PlatformToolset=v143 /p:Configuration=Release /p:Platform=win32 /p:UseEnv=true
       shell: cmd
+    - name: disable firewall
+      run: Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False
+      shell: powershell
     - name: get sipp
       run: Invoke-WebRequest -Uri "https://github.com/pjsip/third_party_libs/raw/main/sipp-3.2-win.zip" -OutFile ".\sipp.zip"
       shell: powershell
@@ -277,6 +283,9 @@ jobs:
         call "%PROGRAMFILES%\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat"
         msbuild cmp_wav.vcxproj /p:PlatformToolset=v143 /p:Configuration=Release /p:Platform=win32 /p:UseEnv=true
       shell: cmd
+    - name: disable firewall
+      run: Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False
+      shell: powershell
     - name: get sipp
       run: Invoke-WebRequest -Uri "https://github.com/pjsip/third_party_libs/raw/main/sipp-3.2-win.zip" -OutFile ".\sipp.zip"
       shell: powershell
