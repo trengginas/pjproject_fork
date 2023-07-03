@@ -128,6 +128,20 @@ jobs:
         call "%PROGRAMFILES%\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat"
         msbuild cmp_wav.vcxproj /p:PlatformToolset=v143 /p:Configuration=Release /p:Platform=win32 /p:UseEnv=true
       shell: cmd
+    - name: get sipp
+      run: Invoke-WebRequest -Uri "https://github.com/pjsip/third_party_libs/raw/main/sipp-3.2-win.zip" -OutFile ".\sipp.zip"
+      shell: powershell
+    - name: expand sipp
+      run: |
+        Expand-Archive -LiteralPath .\sipp.zip -DestinationPath .; pwd
+        cd sipp
+        Add-Content ..\sipp_dir.txt $pwd.Path
+      shell: powershell
+    - name: check sipp folder
+      run: |
+        set /P SIPP_DIR=<sipp_dir.txt
+        dir "%SIPP_DIR%"
+      shell: cmd      
     - name: set up Python 3.10 for pjsua test
       uses: actions/setup-python@v4
       with:
@@ -135,7 +149,8 @@ jobs:
     - name: unit tests
       run: |
         $env:OPENSSL_DIR = Get-Content .\openssl_dir.txt
-        $env:PATH+=";$env:OPENSSL_DIR\bin"
+        $env:SIPP_DIR = Get-Content .\sipp_dir.txt        
+        $env:PATH+=";$env:OPENSSL_DIR\bin;$env:SIPP_DIR;"
         cd tests/pjsua; python runall.py
         cd ../../pjsip/bin; ./pjsip-test-i386-Win32-vc14-Release.exe
       shell: powershell
@@ -262,6 +277,20 @@ jobs:
         call "%PROGRAMFILES%\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat"
         msbuild cmp_wav.vcxproj /p:PlatformToolset=v143 /p:Configuration=Release /p:Platform=win32 /p:UseEnv=true
       shell: cmd
+    - name: get sipp
+      run: Invoke-WebRequest -Uri "https://github.com/pjsip/third_party_libs/raw/main/sipp-3.2-win.zip" -OutFile ".\sipp.zip"
+      shell: powershell
+    - name: expand sipp
+      run: |
+        Expand-Archive -LiteralPath .\sipp.zip -DestinationPath .; pwd
+        cd sipp
+        Add-Content ..\sipp_dir.txt $pwd.Path
+      shell: powershell
+    - name: check sipp folder
+      run: |
+        set /P SIPP_DIR=<sipp_dir.txt
+        dir "%SIPP_DIR%"
+      shell: cmd              
     - name: set up Python 3.10 for pjsua test
       uses: actions/setup-python@v4
       with:
@@ -269,8 +298,9 @@ jobs:
     - name: unit tests
       run: |
         $env:OPENSSL_DIR = Get-Content .\openssl_dir.txt
+        $env:SIPP_DIR = Get-Content .\sipp_dir.txt  
         $env:SDL_DIR = Get-Content .\sdl_dir.txt
-        $env:PATH+=";$env:OPENSSL_DIR\bin;$env:SDL_DIR\lib\x86;"
+        $env:PATH+=";$env:OPENSSL_DIR\bin;$env:SDL_DIR\lib\x86;$env:SIPP_DIR;"
         cd tests/pjsua; python runall.py
         cd ../../pjlib/bin; ./pjlib-test-i386-Win32-vc14-Release.exe --ci-mode
         cd ../../pjlib-util/bin; ./pjlib-util-test-i386-Win32-vc14-Release.exe

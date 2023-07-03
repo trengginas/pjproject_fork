@@ -1,6 +1,4 @@
-from __future__ import print_function
 import sys
-import imp
 import re
 import os
 import subprocess
@@ -13,6 +11,7 @@ import getopt
 
 import inc_cfg as inc
 import inc_const as const
+import inc_util as util
 
 # Vars
 G_EXE = ""        # pjsua executable path
@@ -161,16 +160,17 @@ class Expect(threading.Thread):
 
             self.running = True
             while self.proc.poll() is None:
-                line = self.telnet.read_until('\n', 60)
-                if line == "" or const.DESTROYED in line:
+                line = self.telnet.read_until(b'\n', 60)
+                linestr = str(line, 'utf-8')
+                if linestr == "" or const.DESTROYED in linestr:
                     break;
                     
                 #Print the line if echo is ON
                 if self.echo:
-                    print(self.name + ": " + line.rstrip())
+                    print(self.name + ": " + linestr.rstrip())
 
                 self.lock.acquire()
-                self.output += line
+                self.output += linestr
                 self.lock.release()
             self.running = False
         else:
@@ -197,7 +197,7 @@ class Expect(threading.Thread):
     def send(self, cmd):
         self.trace("send " + cmd)
         if self.use_telnet:
-            self.telnet.write(cmd + '\r\n')
+            self.telnet.write(bytes(cmd + '\r\n', 'utf-8'))  
         else:
             self.proc.stdin.writelines(cmd + "\n")
             self.proc.stdin.flush()
@@ -272,7 +272,10 @@ class Expect(threading.Thread):
         if self.trace_enabled:
             now = time.time()
             fmt = self.name + ": " + "================== " + s + " ==================" + " [at t=%(time)03d]"
-            print(fmt % {'time':int(now - self.t0)})
+            try:
+                print(fmt % {'time':int(now - self.t0)})
+            except UnicodeEncodeError:
+                print((fmt % {'time':int(now - self.t0)}).encode('utf-8'))
 
 #########################
 # Error handling
@@ -313,7 +316,7 @@ def handle_error(errmsg, t, close_processes = True):
 # MAIN    
 
 # Import the test script
-script = imp.load_source("script", inc.ARGS[0])  
+script = util.load_module_from_file("script", inc.ARGS[0])
 
 # Init random seed
 random.seed()

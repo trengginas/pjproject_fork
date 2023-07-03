@@ -17,16 +17,15 @@
 ##   - $SIPP_URI            : SIPp SIP URI
 ##   - $PJSUA_PORT[N]            : binding port of PJSUA instance #N
 ##   - $PJSUA_URI[N]            : SIP URI of PJSUA instance #N
-from __future__ import print_function
 import ctypes
 import time
-import imp
 import sys
 import os
 import re
 import subprocess
 from inc_cfg import *
 import inc_const
+import inc_util as util
 
 # flags that test is running in Unix
 G_INUNIX = False
@@ -85,7 +84,7 @@ def resolve_driver_macros(st):
 # Init test driver
 if os.access(SIPP_SCEN_XML[:-4]+".py", os.R_OK):
     # Load test driver file (the corresponding .py file), if any
-    cfg_file = imp.load_source("cfg_file", SIPP_SCEN_XML[:-4]+".py")
+    cfg_file = util.load_module_from_file("cfg_file", SIPP_SCEN_XML[:-4]+".py")
     for ua_idx, ua_param in enumerate(cfg_file.PJSUA):
         ua_param = resolve_driver_macros(ua_param)
         PJSUA_INST_PARAM.append(InstanceParam("pjsua"+str(ua_idx), ua_param))
