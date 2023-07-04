@@ -167,7 +167,7 @@ class Expect(threading.Thread):
                     
                 #Print the line if echo is ON
                 if self.echo:
-                    try
+                    try:
                         print(self.name + ": " + linestr.rstrip())
                     except UnicodeEncodeError:
                         print((self.name + ": " + linestr.rstrip()).encode('utf-8'))
