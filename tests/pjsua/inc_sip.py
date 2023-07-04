@@ -88,7 +88,10 @@ class Dialog:
 
 	def trace(self, txt):
 		if self.trace_enabled:
-			print(str(time.strftime("%H:%M:%S ")) + txt)
+			try:
+				print(str(time.strftime("%H:%M:%S ")) + txt)
+			except UnicodeEncodeError:
+				print(str(time.strftime("%H:%M:%S ")) + txt.encode('utf-8'))
 
 	def update_fields(self, msg):
 		if self.tcp:

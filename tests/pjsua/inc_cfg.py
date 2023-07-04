@@ -64,14 +64,17 @@ class InstanceParam:
 				port = random.randint(DEFAULT_START_TELNET_PORT, 65534)
 				s = socket.socket(socket.AF_INET)
 				try:
+					print("Trying to find the telnet port : " + str(port))
 					s.bind(("0.0.0.0", port))
-				except socket.error as serr:
+				except socket.error as serr, msg:
+					print("Error on telnet port : " + str(port) + " :: " + msg)
 					s.close()
 					if serr.errno ==  errno.EADDRINUSE:
 						continue
 				s.close()
 				break;
 			self.telnet_port = port
+			print("Use telnet port : " + str(port))
 		else:
 			self.telnet_port = telnet_port
 		# Give random sip_port if it's not specified

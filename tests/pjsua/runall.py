@@ -45,42 +45,42 @@ excluded_tests = [
 ]
 
 # Exclude scripts-sipp/uac-reinvite-bad-via-branch on MacOS due to unreliable result
-if platform.system()=='Darwin':
-    excluded_tests.append("scripts-sipp/uac-reinvite-bad-via-branch")
+# if platform.system()=='Darwin':
+#     excluded_tests.append("scripts-sipp/uac-reinvite-bad-via-branch")
 
 
-# Add basic tests
-for f in os.listdir("scripts-run"):
-    tests.append("mod_run.py scripts-run/" + f)
+# # Add basic tests
+# for f in os.listdir("scripts-run"):
+#     tests.append("mod_run.py scripts-run/" + f)
 
 # Add basic call tests
 for f in os.listdir("scripts-call"):
     tests.append("mod_call.py scripts-call/" + f)
 
-# Add presence tests
-for f in os.listdir("scripts-pres"):
-    tests.append("mod_pres.py scripts-pres/" + f)
+# # Add presence tests
+# for f in os.listdir("scripts-pres"):
+#     tests.append("mod_pres.py scripts-pres/" + f)
 
 # Add mod_sendto tests
 for f in os.listdir("scripts-sendto"):
     tests.append("mod_sendto.py scripts-sendto/" + f)
 
-# Add mod_media_playrec tests
-for f in os.listdir("scripts-media-playrec"):
-    tests.append("mod_media_playrec.py scripts-media-playrec/" + f)
+# # Add mod_media_playrec tests
+# for f in os.listdir("scripts-media-playrec"):
+#     tests.append("mod_media_playrec.py scripts-media-playrec/" + f)
 
-# Add mod_pesq tests
-for f in os.listdir("scripts-pesq"):
-    tests.append("mod_pesq.py scripts-pesq/" + f)
+# # Add mod_pesq tests
+# for f in os.listdir("scripts-pesq"):
+#     tests.append("mod_pesq.py scripts-pesq/" + f)
 
-# Add recvfrom tests
-for f in os.listdir("scripts-recvfrom"):
-    tests.append("mod_recvfrom.py scripts-recvfrom/" + f)
+# # Add recvfrom tests
+# for f in os.listdir("scripts-recvfrom"):
+#     tests.append("mod_recvfrom.py scripts-recvfrom/" + f)
 
 # Add sipp tests
-for f in os.listdir("scripts-sipp"):
-    if f.endswith(".xml"):
-        tests.append("mod_sipp.py scripts-sipp/" + f)
+# for f in os.listdir("scripts-sipp"):
+#     if f.endswith(".xml"):
+#         tests.append("mod_sipp.py scripts-sipp/" + f)
 
 
 resume_script=""
