@@ -161,7 +161,7 @@ class Expect(threading.Thread):
             self.running = True
             while self.proc.poll() is None:
                 line = self.telnet.read_until(b'\n', 60)
-                linestr = str(line, 'utf-8')
+                linestr = line.decode('utf-8')
                 if linestr == "" or const.DESTROYED in linestr:
                     break;
                     
@@ -197,7 +197,7 @@ class Expect(threading.Thread):
     def send(self, cmd):
         self.trace("send " + cmd)
         if self.use_telnet:
-            self.telnet.write(bytes(cmd + '\r\n', 'utf-8'))  
+            self.telnet.write((cmd + '\r\n').encode('utf-8'))
         else:
             self.proc.stdin.writelines(cmd + "\n")
             self.proc.stdin.flush()
