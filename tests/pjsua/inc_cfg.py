@@ -66,10 +66,10 @@ class InstanceParam:
 				try:
 					print("Trying to find the telnet port : " + str(port))
 					s.bind(("0.0.0.0", port))
-				except socket.error as serr, msg:
+				except socket.error, msg:
 					print("Error on telnet port : " + str(port) + " :: " + msg)
 					s.close()
-					if serr.errno ==  errno.EADDRINUSE:
+					if socket.error.errno ==  errno.EADDRINUSE:
 						continue
 				s.close()
 				break;
