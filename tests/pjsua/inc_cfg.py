@@ -64,14 +64,17 @@ class InstanceParam:
 				port = random.randint(DEFAULT_START_TELNET_PORT, 65534)
 				s = socket.socket(socket.AF_INET)
 				try:
+					print("Trying to find the telnet port : " + str(port))
 					s.bind(("0.0.0.0", port))
 				except socket.error as serr:
+					print("Error on telnet port : " + str(port) + " :: " + str(serr.errno))
 					s.close()
-					if serr.errno ==  errno.EADDRINUSE:
+					if serr.errno ==  errno.EADDRINUSE or serr.errno == errno.EACCES:
 						continue
 				s.close()
 				break;
 			self.telnet_port = port
+			print("Use telnet port : " + str(port))
 		else:
 			self.telnet_port = telnet_port
 		# Give random sip_port if it's not specified
@@ -86,14 +89,17 @@ class InstanceParam:
 				cnt = cnt + 1
 				s = socket.socket(socket.AF_INET)
 				try:
+					print("Trying to find the SIP port : " + str(port))
 					s.bind(("0.0.0.0", port))
 				except socket.error as serr:
+					print("Error on SIP port : " + str(port) + " :: " + str(serr.errno))
 					s.close()
-					if serr.errno ==  errno.EADDRINUSE:
+					if serr.errno ==  errno.EADDRINUSE or serr.errno ==  errno.EACCES:
 						continue
 				s.close()
 				break;
 			self.sip_port = port
+			print("Use SIP port : " + str(port))
 			# Give some time for socket close
 			time.sleep(0.5)
 		else:
@@ -148,7 +154,7 @@ class TestParam:
 
 ###################################
 # TestError exception
-class TestError:
+class TestError(Exception):
 	desc = ""
 	def __init__(self, desc):
 		self.desc = desc

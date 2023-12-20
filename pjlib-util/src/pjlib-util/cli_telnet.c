@@ -1819,6 +1819,13 @@ static pj_status_t telnet_start(cli_telnet_fe *fe)
         PJ_PERROR(3, (THIS_FILE, status, "Failed setting socket options"));
     }
 
+    {
+        char addrtxt[128];
+        PJ_LOG(5, (THIS_FILE,
+            "Starting telnet on %s",
+            pj_sockaddr_print(&addr, addrtxt, sizeof(addrtxt), 3)));
+    }
+
     /* The loop is silly, but what else can we do? */
     for (msec=MIN_WAIT_ON_TELNET_RESTART, restart_retry=0;
          restart_retry < MAX_RETRY_ON_TELNET_RESTART;
