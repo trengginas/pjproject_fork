@@ -73,6 +73,9 @@ jobs:
         cat pjsua-caps
     - name: ensure AMR codec is installed
       run: cat pjsua-caps | grep -E 'AMR/8000'
+      # one of the step above has changed core_pattern, restore it
+    - name: reinstall cirunner
+      run: cirunner/installlinux.sh
     - name: pjmedia-test
       run: make pjmedia-test
     - name: pjsua-test
@@ -101,6 +104,9 @@ jobs:
       run: CFLAGS="-g" LDFLAGS="-rdynamic" ./configure
     - name: make
       run: $MAKE_FAST
+      # one of the step above has changed core_pattern, restore it
+    - name: reinstall cirunner
+      run: cirunner/installlinux.sh
     - name: pjlib-test
       run: make pjlib-test
     - name: pjlib-util-test
@@ -131,6 +137,9 @@ jobs:
       run: CFLAGS="-g" LDFLAGS="-rdynamic" ./configure
     - name: make
       run: $MAKE_FAST
+      # one of the step above has changed core_pattern, restore it
+    - name: reinstall cirunner
+      run: cirunner/installlinux.sh
     - name: pjsip-test
       run: make pjsip-test
     - name: upload artifacts on failure
@@ -157,6 +166,9 @@ jobs:
       run: $MAKE_FAST
     - name: swig bindings
       run: cd pjsip-apps/src/swig && make
+      # one of the step above has changed core_pattern, restore it
+    - name: reinstall cirunner
+      run: cirunner/installlinux.sh
     - name: pjlib-test
       run: make pjlib-test
     - name: pjsip-test
@@ -192,6 +204,9 @@ jobs:
       run: pjlib/bin/pjlib-test-`make infotarget` --config --list | grep SSL
     - name: verify gnu tls is used
       run: pjlib/bin/pjlib-test-`make infotarget` --config --list | grep -E 'PJ_SSL_SOCK_IMP\s+:\s+2'
+      # one of the step above has changed core_pattern, restore it
+    - name: reinstall cirunner
+      run: cirunner/installlinux.sh
     - name: pjlib-test
       run: make pjlib-test
     - name: pjnath-test
