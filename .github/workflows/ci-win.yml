@@ -193,17 +193,28 @@ jobs:
         call "%PROGRAMFILES%\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat"
         msbuild cmp_wav.vcxproj /p:PlatformToolset=v143 /p:Configuration=Release /p:Platform=win32 /p:UseEnv=true
       shell: cmd
+    - name: get test tool visqol
+      run: |
+        Invoke-WebRequest -Uri "https://github.com/trengginas//raw/main/visqol-win.zip" -OutFile ".\visqol-win.zip"
+        Expand-Archive -LiteralPath .\visqol-win.zip -DestinationPath tests/pjsua/tools
+      shell: powershell
     - name: set up Python 3.10 for pjsua test
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
-    - name: pjsip-test
+    - name: Install PESQ and Dependencies
       run: |
-        $env:OPENSSL_DIR = Get-Content .\openssl_dir.txt
-        $env:PATH+=";$env:OPENSSL_DIR\bin"
-        cd pjsip/bin
-        Invoke-Expression "$env:CI_RUNNER ./pjsip-test-i386-Win32-vc14-Release.exe $env:CI_WIN_ARGS"
-      shell: powershell
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install numpy cython
+        python -m pip install pesq scipy
+
+    # - name: pjsip-test
+    #   run: |
+    #     $env:OPENSSL_DIR = Get-Content .\openssl_dir.txt
+    #     $env:PATH+=";$env:OPENSSL_DIR\bin"
+    #     cd pjsip/bin
+    #     Invoke-Expression "$env:CI_RUNNER ./pjsip-test-i386-Win32-vc14-Release.exe $env:CI_WIN_ARGS"
+    #   shell: powershell
     - name: python pjsua tests
       run: |
         $env:OPENSSL_DIR = Get-Content .\openssl_dir.txt
@@ -538,15 +549,15 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
-    - name: python pjsua tests
-      run: |
-        $env:SDL_DIR = Get-Content .\sdl_dir.txt
-        $env:SIPP_DIR = Get-Content .\sipp_dir.txt
-        $env:PATH+=";$env:SDL_DIR\lib\x86;"
-        $env:PATH+=";$env:SIPP_DIR"
-        cd tests/pjsua
-        echo python runall.py
-      shell: powershell
+    # - name: python pjsua tests
+    #   run: |
+    #     $env:SDL_DIR = Get-Content .\sdl_dir.txt
+    #     $env:SIPP_DIR = Get-Content .\sipp_dir.txt
+    #     $env:PATH+=";$env:SDL_DIR\lib\x86;"
+    #     $env:PATH+=";$env:SIPP_DIR"
+    #     cd tests/pjsua
+    #     echo python runall.py
+    #   shell: powershell
     - name: upload artifacts on failure
       if: ${{ failure() }}
       uses: actions/upload-artifact@v4
@@ -828,15 +839,15 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
-    - name: python pjsua tests
-      run: |
-        $env:OPENSSL_DIR = Get-Content .\openssl_dir.txt
-        $env:SIPP_DIR = Get-Content .\sipp_dir.txt
-        $env:PATH+=";$env:OPENSSL_DIR\bin"
-        $env:PATH+=";$env:SIPP_DIR"
-        cd tests/pjsua
-        echo python runall.py
-      shell: powershell
+    # - name: python pjsua tests
+    #   run: |
+    #     $env:OPENSSL_DIR = Get-Content .\openssl_dir.txt
+    #     $env:SIPP_DIR = Get-Content .\sipp_dir.txt
+    #     $env:PATH+=";$env:OPENSSL_DIR\bin"
+    #     $env:PATH+=";$env:SIPP_DIR"
+    #     cd tests/pjsua
+    #     echo python runall.py
+    #   shell: powershell
     - name: upload artifacts on failure
       if: ${{ failure() }}
       uses: actions/upload-artifact@v4

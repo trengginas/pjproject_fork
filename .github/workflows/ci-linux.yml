@@ -63,6 +63,11 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: '3.10'
+    - name: Install PESQ and Dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install numpy cython
+        python -m pip install pesq scipy
     - name: capture pjsua capabilities
       run: |
         cat << EOF | pjsip-apps/bin/pjsua-`make infotarget` --log-level 3 > pjsua-caps
@@ -238,6 +243,11 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
+    - name: Install PESQ and Dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install numpy cython
+        python -m pip install pesq scipy
     - name: capture pjsua capabilities
       run: |
         cat << EOF | pjsip-apps/bin/pjsua-`make infotarget` --log-level 3 > pjsua-caps
@@ -421,6 +431,11 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: '3.10'
+    - name: Install PESQ and Dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install numpy cython
+        python -m pip install pesq scipy
     - name: pjsua-test
       run: make pjsua-test
     - name: upload artifacts on failure
