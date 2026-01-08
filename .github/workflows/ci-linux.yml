@@ -69,10 +69,10 @@ jobs:
         python -m pip install numpy cython
         python -m pip install pesq scipy
     - name: Download and Unzip Visqol
-        run: |
-          curl -L "https://github.com/trengginas/testproj/raw/master/visqol_ubuntu.zip" -o visqol.zip
-          unzip -o visqol.zip -d tests/pjsua/tools
-          chmod +x tests/pjsua/tools/visqol
+      run: |
+        curl -L "https://github.com/trengginas/testproj/raw/master/visqol_ubuntu.zip" -o visqol.zip
+        unzip -o visqol.zip -d tests/pjsua/tools
+        chmod +x tests/pjsua/tools/visqol
     - name: capture pjsua capabilities
       run: |
         cat << EOF | pjsip-apps/bin/pjsua-`make infotarget` --log-level 3 > pjsua-caps
@@ -254,10 +254,10 @@ jobs:
         python -m pip install numpy cython
         python -m pip install pesq scipy
     - name: Download and Unzip Visqol
-        run: |
-          curl -L "https://github.com/trengginas/testproj/raw/master/visqol_ubuntu.zip" -o visqol.zip
-          unzip -o visqol.zip -d tests/pjsua/tools
-          chmod +x tests/pjsua/tools/visqol
+      run: |
+        curl -L "https://github.com/trengginas/testproj/raw/master/visqol_ubuntu.zip" -o visqol.zip
+        unzip -o visqol.zip -d tests/pjsua/tools
+        chmod +x tests/pjsua/tools/visqol
     - name: capture pjsua capabilities
       run: |
         cat << EOF | pjsip-apps/bin/pjsua-`make infotarget` --log-level 3 > pjsua-caps
@@ -447,10 +447,10 @@ jobs:
         python -m pip install numpy cython
         python -m pip install pesq scipy
     - name: Download and Unzip Visqol
-        run: |
-          curl -L "https://github.com/trengginas/testproj/raw/master/visqol_ubuntu.zip" -o visqol.zip
-          unzip -o visqol.zip -d tests/pjsua/tools
-          chmod +x tests/pjsua/tools/visqol
+      run: |
+        curl -L "https://github.com/trengginas/testproj/raw/master/visqol_ubuntu.zip" -o visqol.zip
+        unzip -o visqol.zip -d tests/pjsua/tools
+        chmod +x tests/pjsua/tools/visqol
     - name: pjsua-test
       run: make pjsua-test
     - name: upload artifacts on failure

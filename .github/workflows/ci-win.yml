@@ -207,7 +207,7 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel
         python -m pip install numpy cython
         python -m pip install pesq scipy
-
+      shell: cmd
     # - name: pjsip-test
     #   run: |
     #     $env:OPENSSL_DIR = Get-Content .\openssl_dir.txt
@@ -222,7 +222,7 @@ jobs:
         $env:PATH+=";$env:OPENSSL_DIR\bin"
         $env:PATH+=";$env:SIPP_DIR"
         cd tests/pjsua
-        echo python runall.py
+        python runall.py
       shell: powershell
     - name: upload artifacts on failure
       if: ${{ failure() }}
