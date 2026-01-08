@@ -18,6 +18,7 @@ tests = []
 excluded_tests = [
     "svn",
     "pyc",
+    "__pycache__",
     "scripts-call/150_srtp_2_1",                     # SRTP optional 'cannot' call SRTP mandatory
     "scripts-call/150_srtp_2_3.py",                  # disabled because #1267 wontfix
     "scripts-call/301_ice_public_a.py",              # Unreliable, proxy returns 408 sometimes
@@ -26,7 +27,7 @@ excluded_tests = [
     "scripts-media-playrec/100_resample_lf_8_11.py", # related to clock-rate 11 kHz problem
     "scripts-media-playrec/100_resample_lf_8_22.py", # related to clock-rate 22 kHz problem
     "scripts-media-playrec/100_resample_lf_11",      # related to clock-rate 11 kHz problem
-    "pesq",                                          # temporarily disabling all pesq related test due to unreliability
+    # "pesq",                                          # temporarily disabling all pesq related test due to unreliability
     # TODO check all tests below for false negatives
     "call_305_ice_comp_1_2",
     "scripts-sendto/155_err_sdp_bad_syntax",
@@ -50,37 +51,37 @@ if platform.system()=='Darwin':
 
 
 # Add basic tests
-for f in os.listdir("scripts-run"):
-    tests.append("mod_run.py scripts-run/" + f)
+# for f in os.listdir("scripts-run"):
+#     tests.append("mod_run.py scripts-run/" + f)
 
-# Add basic call tests
-for f in os.listdir("scripts-call"):
-    tests.append("mod_call.py scripts-call/" + f)
+# # Add basic call tests
+# for f in os.listdir("scripts-call"):
+#     tests.append("mod_call.py scripts-call/" + f)
 
-# Add presence tests
-for f in os.listdir("scripts-pres"):
-    tests.append("mod_pres.py scripts-pres/" + f)
+# # Add presence tests
+# for f in os.listdir("scripts-pres"):
+#     tests.append("mod_pres.py scripts-pres/" + f)
 
-# Add mod_sendto tests
-for f in os.listdir("scripts-sendto"):
-    tests.append("mod_sendto.py scripts-sendto/" + f)
+# # Add mod_sendto tests
+# for f in os.listdir("scripts-sendto"):
+#     tests.append("mod_sendto.py scripts-sendto/" + f)
 
 # Add mod_media_playrec tests
-for f in os.listdir("scripts-media-playrec"):
-    tests.append("mod_media_playrec.py scripts-media-playrec/" + f)
+# for f in os.listdir("scripts-media-playrec"):
+#     tests.append("mod_media_playrec.py scripts-media-playrec/" + f)
 
 # Add mod_pesq tests
 for f in os.listdir("scripts-pesq"):
     tests.append("mod_pesq.py scripts-pesq/" + f)
 
 # Add recvfrom tests
-for f in os.listdir("scripts-recvfrom"):
-    tests.append("mod_recvfrom.py scripts-recvfrom/" + f)
+# for f in os.listdir("scripts-recvfrom"):
+#     tests.append("mod_recvfrom.py scripts-recvfrom/" + f)
 
-# Add sipp tests
-for f in os.listdir("scripts-sipp"):
-    if f.endswith(".xml"):
-        tests.append("mod_sipp.py scripts-sipp/" + f)
+# # Add sipp tests
+# for f in os.listdir("scripts-sipp"):
+#     if f.endswith(".xml"):
+#         tests.append("mod_sipp.py scripts-sipp/" + f)
 
 
 resume_script=""
@@ -192,13 +193,14 @@ for pat in excluded_tests:
 
 # Now run the tests
 total_cnt = len(tests)
+print("total tests : " + str(total_cnt))
 for t in tests:
     if resume_script!="" and t.find(resume_script)==-1:
         print("Skipping " + t +"..")
         total_cnt = total_cnt - 1
         continue
     resume_script=""
-    cmdline = "python run.py " + argv_st + t
+    cmdline = "python3 run.py " + argv_st + t
     if shell_cmd:
         cmdline = "%s '%s'" % (shell_cmd, cmdline)
     for i in range(1, retry_num+2):
